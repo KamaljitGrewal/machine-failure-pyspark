@@ -26,6 +26,12 @@ This is a simulated dataset made to look like real factory data. Only about 3.5%
 3. **Trained a random forest model** with Spark MLlib to predict failures. I trained on 80% of the data and tested on the other 20%.
 4. **Fixed a problem with rare failures.** My first model scored 97.7% accuracy, but that number is misleading. Since almost every machine works fine, a model that always guessed "no failure" would score about 96%. The model only caught 26 of the 70 real failures in the test set. So I told the model that missing a failure costs more than a false alarm, and tested three settings.
 
+## Why Spark?
+
+This dataset is small. A tool like pandas and scikit-learn could handle 10,000 rows faster and with less setup. I used Spark on purpose, to practice the tools a larger version of this project would need. Factory sensors can produce millions of readings, and at that size a single computer struggles. Spark splits the work across many computers, and the same pipeline would scale up with little change.
+
+I also chose a random forest model because it works well on table data, needs little tuning, and shows which readings matter most. I did not compare it against other models yet.
+
 ## Results
 
 Test set: 2,000 or so machines, with 70 real failures.
@@ -55,7 +61,7 @@ I chose weight 5 as the main result because it catches most failures while keepi
 ## Next steps
 
 - Test on several splits of the data (cross-validation) for steadier results
-- Try other models and compare them
+- Compare other models, starting with logistic regression as a simple baseline and gradient boosted trees as a stronger option
 - Save the cleaned data to a database as part of a full data pipeline
 
 ## How to run it
